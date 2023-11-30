@@ -25,15 +25,14 @@ export const Header = () => {
   const headerCur = allCurrency.filter(cur => {
     return cur.cc === 'USD' || cur.cc === 'EUR' || cur.cc === 'GBP';
   });
-  console.log(headerCur);
 
   return (
     <BoxHeader>
       <ListHeader>
         {headerCur.map(cur => (
-          <li>
+          <li key={cur.r030}>
             <p>
-              1{cur.cc} = {cur.rate}UAH
+              1{cur.cc} = {cur.rate.toFixed(2)}UAH
             </p>
           </li>
         ))}

@@ -10,5 +10,5 @@ export const ListHeader = styled.ul`
   gap: 20px;
   margin: 0;
   padding: 0 20px;
-  background-image: linear-gradient(to right, blue, yellow);
+  background-color: #fff;
 `;
