@@ -55,7 +55,7 @@ const HomePage = () => {
       }
     };
     getCurrency();
-  }, []);
+  }, [today]);
   //   console.log(selectCur);
   useEffect(() => {
     setCur2(() => {
