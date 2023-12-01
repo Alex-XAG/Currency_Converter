@@ -23,7 +23,7 @@ export const Header = () => {
   }, []);
 
   const headerCur = allCurrency.filter(cur => {
-    return cur.cc === 'USD' || cur.cc === 'EUR' || cur.cc === 'GBP';
+    return cur.cc === 'USD' || cur.cc === 'EUR';
   });
 
   return (
