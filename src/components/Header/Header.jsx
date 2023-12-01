@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { BoxHeader, ListHeader } from './Header.styled';
 
 export const Header = () => {
-  const [allCurrency, setAllCurrency] = useState([]);
+  const [headerCurrency, setHeaderCurrency] = useState([]);
 
   useEffect(() => {
     const getCurrency = async () => {
@@ -13,7 +13,11 @@ export const Header = () => {
             'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json '
           )
           .then(res => {
-            setAllCurrency(res.data);
+            setHeaderCurrency(
+              res.data.filter(cur => {
+                return cur.cc === 'USD' || cur.cc === 'EUR';
+              })
+            );
           });
       } catch (error) {
         console.log(error);
@@ -22,14 +26,10 @@ export const Header = () => {
     getCurrency();
   }, []);
 
-  const headerCur = allCurrency.filter(cur => {
-    return cur.cc === 'USD' || cur.cc === 'EUR';
-  });
-
   return (
     <BoxHeader>
       <ListHeader>
-        {headerCur.map(cur => (
+        {headerCurrency.map(cur => (
           <li key={cur.r030}>
             <p>
               1{cur.cc} = {cur.rate.toFixed(2)}UAH

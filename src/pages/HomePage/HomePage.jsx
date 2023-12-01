@@ -2,8 +2,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 const HomePage = () => {
-  const [cur1, setCur1] = useState(1);
-  const [cur2, setCur2] = useState(1);
+  const [cur1, setCur1] = useState(0);
+  const [cur2, setCur2] = useState(0);
   const [selectCur, setSelectCur] = useState([]);
 
   const date = new Date();
@@ -27,14 +27,12 @@ const HomePage = () => {
 
   useEffect(() => {
     const getCurrency = async () => {
-      //   console.log(today);
       try {
         await axios
           .get(
             'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json '
           )
           .then(res => {
-            // console.log(res.data);
             const selectCur = res.data.filter(cur => {
               return cur.cc === 'USD' || cur.cc === 'EUR';
             });
@@ -56,65 +54,38 @@ const HomePage = () => {
     };
     getCurrency();
   }, [today]);
-  //   console.log(selectCur);
-  useEffect(() => {
-    setCur2(() => {
-      const countedValue =
-        (cur1 * selectedCurrency1.rate) / selectedCurrency2.rate;
-
-      return Number(countedValue);
-    });
-  }, [cur1, selectedCurrency1.rate, selectedCurrency2.rate]);
-
-  //   useEffect(() => {
-  //     setCur1(() => {
-  //       const countedValue =
-  //         (cur2 * selectedCurrency2.rate) / selectedCurrency1.rate;
-
-  //       return Number(countedValue);
-  //     });
-  //   }, [cur2, selectedCurrency1.rate, selectedCurrency2.rate]);
 
   const handleInputCur1 = e => {
     const value = Number(e.target.value);
-
+    if (isNaN(value)) return;
     setCur1(value);
-    setCur2(() => {
-      const countedValue =
-        (cur1 * selectedCurrency1.rate) / selectedCurrency2.rate;
 
-      return Number(countedValue);
-    });
+    setCur2(
+      ((value * selectedCurrency1.rate) / selectedCurrency2.rate).toFixed(2)
+    );
   };
 
   const handleInputCur2 = e => {
     const value = Number(e.target.value);
-
+    if (isNaN(value)) return;
     setCur2(value);
-    setCur1(() => {
-      const countedValue =
-        (cur2 * selectedCurrency2.rate) / selectedCurrency1.rate;
 
-      return Number(countedValue);
-    });
+    setCur1(
+      ((value * selectedCurrency2.rate) / selectedCurrency1.rate).toFixed(2)
+    );
   };
 
   const handleChangeCurr1 = e => {
-    const selectedCurr = selectCur.filter(cur => cur.cc === e.target.value);
+    const selectedCurr = selectCur.find(cur => cur.cc === e.target.value);
 
-    setSelectedCurrency1(...selectedCurr);
-    setCur2(Number((cur1 * selectedCurrency1.rate) / selectedCurrency2.rate));
+    setSelectedCurrency1(selectedCurr);
+    setCur2(((cur1 * selectedCurr.rate) / selectedCurrency2.rate).toFixed(2));
   };
 
   const handleChangeCurr2 = e => {
-    const selectedCurr = selectCur.filter(cur => cur.cc === e.target.value);
-    setSelectedCurrency2(...selectedCurr);
-    setCur1(() => {
-      const countedValue =
-        (cur2 * selectedCurrency2.rate) / selectedCurrency1.rate;
-
-      return Number(countedValue);
-    });
+    const selectedCurr = selectCur.find(cur => cur.cc === e.target.value);
+    setSelectedCurrency2(selectedCurr);
+    setCur1(((cur2 * selectedCurr.rate) / selectedCurrency1.rate).toFixed(2));
   };
 
   return (
