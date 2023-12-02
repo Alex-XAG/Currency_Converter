@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { BoxHeader, ListHeader } from './Header.styled';
+import { ItemHeader, ListHeader, TextHeader } from './Header.styled';
 
 export const Header = () => {
   const [headerCurrency, setHeaderCurrency] = useState([]);
@@ -27,16 +27,14 @@ export const Header = () => {
   }, []);
 
   return (
-    <BoxHeader>
-      <ListHeader>
-        {headerCurrency.map(cur => (
-          <li key={cur.r030}>
-            <p>
-              1{cur.cc} = {cur.rate.toFixed(2)}UAH
-            </p>
-          </li>
-        ))}
-      </ListHeader>
-    </BoxHeader>
+    <ListHeader>
+      {headerCurrency.map(cur => (
+        <ItemHeader key={cur.r030}>
+          <TextHeader>
+            1{cur.cc} = {cur.rate.toFixed(2)}UAH
+          </TextHeader>
+        </ItemHeader>
+      ))}
+    </ListHeader>
   );
 };

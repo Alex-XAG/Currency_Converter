@@ -1,5 +1,11 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import {
+  FormHeader,
+  InputHeader,
+  LabelHomePage,
+  SelectHeader,
+} from './HomePage.styled';
 
 const HomePage = () => {
   const [cur1, setCur1] = useState(0);
@@ -89,46 +95,44 @@ const HomePage = () => {
   };
 
   return (
-    <div>
-      <form>
-        <label>
-          <input
-            name="cur1"
-            type="text"
-            value={cur1}
-            onChange={handleInputCur1}
-          />
-          <select value={selectedCurrency1.cc} onChange={handleChangeCurr1}>
-            {selectCur.map(cur => {
-              return (
-                <option key={cur.r030} value={cur.cc}>
-                  {cur.cc}
-                </option>
-              );
-            })}
-          </select>
-        </label>
+    <FormHeader>
+      <LabelHomePage>
+        <InputHeader
+          name="cur1"
+          type="text"
+          value={cur1}
+          onChange={handleInputCur1}
+        />
+        <SelectHeader value={selectedCurrency1.cc} onChange={handleChangeCurr1}>
+          {selectCur.map(cur => {
+            return (
+              <option key={cur.r030} value={cur.cc}>
+                {cur.cc}
+              </option>
+            );
+          })}
+        </SelectHeader>
+      </LabelHomePage>
 
-        <label>
-          <input
-            name="cur2"
-            type="text"
-            autoComplete="off"
-            value={cur2}
-            onChange={handleInputCur2}
-          />
-          <select value={selectedCurrency2.cc} onChange={handleChangeCurr2}>
-            {selectCur.map(cur => {
-              return (
-                <option key={cur.r030} value={cur.cc}>
-                  {cur.cc}
-                </option>
-              );
-            })}
-          </select>
-        </label>
-      </form>
-    </div>
+      <LabelHomePage>
+        <InputHeader
+          name="cur2"
+          type="text"
+          autoComplete="off"
+          value={cur2}
+          onChange={handleInputCur2}
+        />
+        <SelectHeader value={selectedCurrency2.cc} onChange={handleChangeCurr2}>
+          {selectCur.map(cur => {
+            return (
+              <option key={cur.r030} value={cur.cc}>
+                {cur.cc}
+              </option>
+            );
+          })}
+        </SelectHeader>
+      </LabelHomePage>
+    </FormHeader>
   );
 };
 
